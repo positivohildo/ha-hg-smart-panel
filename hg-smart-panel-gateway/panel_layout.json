@@ -1,0 +1,238 @@
+{
+  "version": "0.5.0",
+  "rooms": [
+    {
+      "id": "cozinha",
+      "name": "Cozinha",
+      "icon": "kitchen",
+      "entities": [
+        {
+          "entity_id": "switch.modulo_zigbee_1",
+          "name": "Tomada Air Fryer",
+          "favorite": true,
+          "category": "appliance"
+        },
+        {
+          "entity_id": "light.cozinha_2",
+          "name": "Luz Cozinha",
+          "favorite": true,
+          "category": "light"
+        },
+        {
+          "entity_id": "light.led_pia",
+          "name": "Led Pia",
+          "favorite": false,
+          "category": "light"
+        },
+        {
+          "entity_id": "light.botao_cozinha",
+          "name": "Botão Cozinha",
+          "favorite": false,
+          "category": "light"
+        }
+      ]
+    },
+    {
+      "id": "sala",
+      "name": "Sala de Estar",
+      "icon": "living_room",
+      "entities": [
+        {
+          "entity_id": "light.sala_test_light_35",
+          "name": "Luz Sala",
+          "favorite": true,
+          "category": "light"
+        },
+        {
+          "entity_id": "light.painel_sala_3",
+          "name": "Painel Sala",
+          "favorite": true,
+          "category": "light"
+        },
+        {
+          "entity_id": "light.luminaria_sala",
+          "name": "Luminária Sala",
+          "favorite": false,
+          "category": "light"
+        },
+        {
+          "entity_id": "light.bola_esquerda_2",
+          "name": "Bola Esquerda",
+          "favorite": false,
+          "category": "light"
+        },
+        {
+          "entity_id": "cover.0x403059fffea7855c",
+          "name": "Cortina Sala 2",
+          "favorite": false,
+          "category": "cover"
+        },
+        {
+          "entity_id": "cover.0x403059fffea7f4a2",
+          "name": "Cortina Sala 1",
+          "favorite": false,
+          "category": "cover"
+        }
+      ]
+    },
+    {
+      "id": "corredor",
+      "name": "Corredor & Circulação",
+      "icon": "hallway",
+      "entities": [
+        {
+          "entity_id": "light.modulo_corredor_l1",
+          "name": "Luz Corredor",
+          "favorite": true,
+          "category": "light"
+        },
+        {
+          "entity_id": "light.modulo_corredor_l4",
+          "name": "Banheiro",
+          "favorite": false,
+          "category": "light"
+        },
+        {
+          "entity_id": "light.modulo_corredor_l3",
+          "name": "Área de Serviço",
+          "favorite": false,
+          "category": "light"
+        },
+        {
+          "entity_id": "light.modulo_escritorio_l1",
+          "name": "Escritório",
+          "favorite": false,
+          "category": "light"
+        }
+      ]
+    },
+    {
+      "id": "sotao",
+      "name": "Sótão",
+      "icon": "attic",
+      "entities": [
+        {
+          "entity_id": "light.modulo_sotao_l4",
+          "name": "Luz Sótão",
+          "favorite": true,
+          "category": "light"
+        }
+      ]
+    },
+    {
+      "id": "area_externa",
+      "name": "Área Externa & Jardim",
+      "icon": "outdoor",
+      "entities": [
+        {
+          "entity_id": "light.luzes_frente",
+          "name": "Luzes Frente",
+          "favorite": true,
+          "category": "light"
+        },
+        {
+          "entity_id": "light.modulo_led_fundos_l1",
+          "name": "Led Fundos",
+          "favorite": false,
+          "category": "light"
+        },
+        {
+          "entity_id": "light.controlador_rf_switch_2",
+          "name": "Led Garagem",
+          "favorite": false,
+          "category": "light"
+        },
+        {
+          "entity_id": "light.led_passeio",
+          "name": "Led Passeio",
+          "favorite": false,
+          "category": "light"
+        },
+        {
+          "entity_id": "light.modulo_lago_l4",
+          "name": "Luz Lago",
+          "favorite": false,
+          "category": "light"
+        },
+        {
+          "entity_id": "switch.0xa4c1387e5fd3c47a_l2",
+          "name": "Válvula Irrigação",
+          "favorite": true,
+          "category": "irrigation"
+        },
+        {
+          "entity_id": "switch.0xa4c1388ea7faa7c0_l2",
+          "name": "Bomba Lago",
+          "favorite": true,
+          "category": "irrigation"
+        },
+        {
+          "entity_id": "switch.0xa4c1387e5fd3c47a_l3",
+          "name": "Válvula Caixa D'água",
+          "favorite": false,
+          "category": "irrigation"
+        }
+      ]
+    },
+    {
+      "id": "seguranca",
+      "name": "Acessos & Segurança",
+      "icon": "security",
+      "entities": [
+        {
+          "entity_id": "cover.central_3sr_1_portao_veicular",
+          "name": "Portão Veicular",
+          "favorite": true,
+          "category": "gate"
+        },
+        {
+          "entity_id": "switch.cpd_kinconyportao_pulso_do_portao",
+          "name": "Pulso Portão",
+          "favorite": true,
+          "category": "gate"
+        },
+        {
+          "entity_id": "cover.garage_door_opener_door",
+          "name": "Portão Garagem",
+          "favorite": false,
+          "category": "gate"
+        },
+        {
+          "entity_id": "lock.porta_principal_facial",
+          "name": "Porta Principal Facial",
+          "favorite": true,
+          "category": "lock"
+        },
+        {
+          "entity_id": "lock.porta_principal",
+          "name": "Porta Fundos",
+          "favorite": false,
+          "category": "lock"
+        }
+      ]
+    }
+  ],
+  "cameras": [
+    {
+      "entity_id": "camera.ds_7216hghi_k1_cvbs1620220509ccwrj72747326wcvu_1901",
+      "name": "Portão Principal",
+      "main": true
+    },
+    {
+      "entity_id": "camera.poste_vip5450_mediaprofile_channel1_substream1",
+      "name": "Poste VIP 5450",
+      "main": false
+    },
+    {
+      "entity_id": "camera.ds_7216hghi_k1_cvbs1620220509ccwrj72747326wcvu_2301",
+      "name": "Frente Residência",
+      "main": false
+    },
+    {
+      "entity_id": "camera.ds_7216hghi_k1_cvbs1620220509ccwrj72747326wcvu_2001",
+      "name": "Fundos Perímetro",
+      "main": false
+    }
+  ],
+  "motion_sensor": "binary_sensor.presenca_sala"
+}
