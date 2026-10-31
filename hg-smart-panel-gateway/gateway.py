@@ -580,9 +580,14 @@ class GatewayRequestHandler(BaseHTTPRequestHandler):
         service = "toggle"
         service_data = {"entity_id": entity_id}
 
-        if entity_id.startswith("switch."):
+        if entity_id.startswith("light."):
+            action = body.get("action", "toggle")
+            if action in ["turn_on", "turn_off", "toggle"]:
+                service = action
+        elif entity_id.startswith("switch."):
             domain = "switch"
-            service = "toggle"
+            action = body.get("action", "toggle")
+            service = action if action in ["turn_on", "turn_off"] else "toggle"
         elif entity_id.startswith("cover."):
             domain = "cover"
             service = "toggle"
@@ -608,9 +613,16 @@ class GatewayRequestHandler(BaseHTTPRequestHandler):
                 service = "set_hvac_mode"
                 if "hvac_mode" in body:
                     service_data["hvac_mode"] = str(body["hvac_mode"])
+            elif action == "turn_off":
+                service = "set_hvac_mode"
+                service_data["hvac_mode"] = "off"
+            elif action == "turn_on":
+                service = "set_hvac_mode"
+                service_data["hvac_mode"] = body.get("hvac_mode", "cool")
             else:
                 current_st = body.get("current_state", "off")
-                service = "turn_off" if current_st != "off" else "turn_on"
+                service = "set_hvac_mode"
+                service_data["hvac_mode"] = "off" if (current_st != "off" and current_st != "unavailable") else "cool"
         elif entity_id.startswith("scene."):
             domain = "scene"
             service = "turn_on"
