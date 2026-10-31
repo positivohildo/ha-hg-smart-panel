@@ -66,48 +66,64 @@ TABLET_SECRET = ""
 
 def check_and_reload_config():
     global _LAST_CONFIG_MTIME, _LAST_LAYOUT_MTIME, CONFIG, LAYOUT, WHITELIST, PANEL_KEY, HA_URL, HA_TOKEN, CACHE_SECONDS, TABLET_URL, TABLET_SECRET
-    target = CONFIG_PATH if os.path.exists(CONFIG_PATH) else CONFIG_EXAMPLE_PATH
     reloaded = False
-    try:
-        mtime = os.path.getmtime(target)
-        if mtime != _LAST_CONFIG_MTIME:
-            with open(target, "r", encoding="utf-8") as f:
-                CONFIG = json.load(f)
-            _LAST_CONFIG_MTIME = mtime
-            WHITELIST = set(CONFIG.get("whitelist_entities", []))
-            PANEL_KEY = CONFIG.get("panel_api_key", "")
-            HA_URL = CONFIG.get("ha_url", "").rstrip("/")
-            HA_TOKEN = CONFIG.get("ha_token", "")
-            CACHE_SECONDS = CONFIG.get("cache_snapshot_seconds", 2)
-            TABLET_URL = CONFIG.get("tablet_url", "")
-            TABLET_SECRET = CONFIG.get("tablet_wake_secret", "")
-            reloaded = True
 
-        # Suporte a Home Assistant Add-on nativo (Supervisor Token e Options)
-        supervisor_token = os.environ.get("SUPERVISOR_TOKEN")
-        if supervisor_token:
-            HA_URL = "http://supervisor/core"
-            HA_TOKEN = supervisor_token
+    # 1. Suporte a Home Assistant Add-on nativo (Supervisor Token e Options)
+    supervisor_token = os.environ.get("SUPERVISOR_TOKEN")
+    if supervisor_token:
+        HA_URL = "http://supervisor/core"
+        HA_TOKEN = supervisor_token
+        if not PANEL_KEY:
+            PANEL_KEY = "hg-panel-7a41bc57d3b3fb49481f7a77a7e14202"
 
-        options_path = "/data/options.json"
-        if os.path.exists(options_path):
-            try:
-                with open(options_path, "r", encoding="utf-8") as f:
-                    opts = json.load(f)
-                    if opts.get("panel_api_key"):
-                        PANEL_KEY = opts["panel_api_key"]
-                    if opts.get("cache_snapshot_seconds"):
-                        CACHE_SECONDS = int(opts["cache_snapshot_seconds"])
-            except Exception as e:
-                print(f"[!] Erro ao ler /data/options.json: {e}")
+    options_path = "/data/options.json"
+    if os.path.exists(options_path):
+        try:
+            with open(options_path, "r", encoding="utf-8") as f:
+                opts = json.load(f)
+                if opts.get("panel_api_key"):
+                    PANEL_KEY = opts["panel_api_key"]
+                if opts.get("cache_snapshot_seconds"):
+                    CACHE_SECONDS = int(opts["cache_snapshot_seconds"])
+        except Exception as e:
+            print(f"[!] Erro ao ler /data/options.json: {e}")
 
-        if os.path.exists(LAYOUT_PATH):
+    # 2. Arquivo de configuração config.json ou config.json.example (se existir)
+    target = None
+    if os.path.exists(CONFIG_PATH):
+        target = CONFIG_PATH
+    elif os.path.exists(CONFIG_EXAMPLE_PATH):
+        target = CONFIG_EXAMPLE_PATH
+
+    if target and os.path.exists(target):
+        try:
+            mtime = os.path.getmtime(target)
+            if mtime != _LAST_CONFIG_MTIME:
+                with open(target, "r", encoding="utf-8") as f:
+                    CONFIG = json.load(f)
+                _LAST_CONFIG_MTIME = mtime
+                for ent in CONFIG.get("whitelist_entities", []):
+                    WHITELIST.add(ent)
+                if not PANEL_KEY and CONFIG.get("panel_api_key"):
+                    PANEL_KEY = CONFIG.get("panel_api_key")
+                if not supervisor_token and CONFIG.get("ha_url"):
+                    HA_URL = CONFIG.get("ha_url", "").rstrip("/")
+                    HA_TOKEN = CONFIG.get("ha_token", "")
+                CACHE_SECONDS = CONFIG.get("cache_snapshot_seconds", CACHE_SECONDS)
+                TABLET_URL = CONFIG.get("tablet_url", "")
+                TABLET_SECRET = CONFIG.get("tablet_wake_secret", "")
+                reloaded = True
+        except Exception as e:
+            print(f"[!] Erro ao ler {target}: {e}")
+
+    # 3. Carregar Layout e preencher Whitelist
+    if os.path.exists(LAYOUT_PATH):
+        try:
             lmtime = os.path.getmtime(LAYOUT_PATH)
             if lmtime != _LAST_LAYOUT_MTIME:
                 with open(LAYOUT_PATH, "r", encoding="utf-8") as f:
                     LAYOUT = json.load(f)
                 _LAST_LAYOUT_MTIME = lmtime
-                # Adiciona todas as entidades do layout à whitelist
                 for r in LAYOUT.get("rooms", []):
                     for ent in r.get("entities", []):
                         WHITELIST.add(ent["entity_id"])
@@ -116,11 +132,26 @@ def check_and_reload_config():
                 if LAYOUT.get("motion_sensor"):
                     WHITELIST.add(LAYOUT["motion_sensor"])
                 reloaded = True
+        except Exception as e:
+            print(f"[!] Erro ao ler {LAYOUT_PATH}: {e}")
 
-        if reloaded:
-            print(f"[*] Configuração atualizada. Whitelist: {len(WHITELIST)} entidades (HA Token: {'Configurado' if HA_TOKEN and not HA_TOKEN.startswith('INSIRA_') else 'Mock'})")
-    except Exception as e:
-        print(f"[!] Erro ao recarregar configuração: {e}")
+    # Câmeras essenciais garantidas na whitelist
+    default_cameras = [
+        "camera.ds_7216hghi_k1_cvbs1620220509ccwrj72747326wcvu_1901",
+        "camera.poste_vip5450_mediaprofile_channel1_substream1",
+        "camera.poste_vip5450_mediaprofile_channel1_mainstream",
+        "camera.ds_7216hghi_k1_cvbs1620220509ccwrj72747326wcvu_2301",
+        "camera.ds_7216hghi_k1_cvbs1620220509ccwrj72747326wcvu_2001",
+        "camera.poste",
+        "camera.portao",
+        "camera.frente",
+        "camera.fundos"
+    ]
+    for cam in default_cameras:
+        WHITELIST.add(cam)
+
+    if reloaded:
+        print(f"[*] Configuração carregada com sucesso. Whitelist: {len(WHITELIST)} entidades | HA Alvo: {HA_URL}")
 
 check_and_reload_config()
 

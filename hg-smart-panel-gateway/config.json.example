@@ -1,0 +1,20 @@
+{
+  "gateway_host": "0.0.0.0",
+  "gateway_port": 8090,
+  "panel_api_key": "hg-panel-7a41bc57d3b3fb49481f7a77a7e14202",
+  "ha_url": "https://beltramini.duckdns.org:8123",
+  "ha_token": "INSIRA_SEU_LONG_LIVED_ACCESS_TOKEN_DO_HOME_ASSISTANT_AQUI",
+  "tablet_url": "http://172.30.0.197:8088/wake",
+  "tablet_wake_secret": "hg-wake-secret-zh960-b74a2f819c",
+  "whitelist_entities": [
+    "light.cozinha_2",
+    "light.sala_test_light_35",
+    "light.painel_sala_3",
+    "light.luzes_frente",
+    "camera.poste",
+    "camera.portao",
+    "camera.frente",
+    "binary_sensor.presenca_sala"
+  ],
+  "cache_snapshot_seconds": 2
+}

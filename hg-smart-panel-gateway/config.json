@@ -1,0 +1,21 @@
+{
+  "gateway_host": "0.0.0.0",
+  "gateway_port": 8090,
+  "panel_api_key": "hg-panel-7a41bc57d3b3fb49481f7a77a7e14202",
+  "ha_url": "https://beltramini.duckdns.org:8123",
+  "ha_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI5ZTFmOTg0NjA5Y2Y0ODY1YTg4MDEzMThkZWNjMDY1MSIsImlhdCI6MTc5MzQxMjM5NiwiZXhwIjoyMTA4NzcyMzk2fQ.InvQa0KnG0qZrxuBXDB4w8YUeqAlPorhYpmhsx8pQT0",
+  "tablet_url": "http://172.30.0.197:8088/wake",
+  "tablet_wake_secret": "hg-wake-secret-zh960-b74a2f819c",
+  "whitelist_entities": [
+    "light.cozinha_2",
+    "light.sala_test_light_35",
+    "light.modulo_sotao_l4",
+    "light.luzes_frente",
+    "camera.poste_vip5450_mediaprofile_channel1_mainstream",
+    "binary_sensor.presenca_sala",
+    "camera.poste",
+    "camera.portao",
+    "camera.frente"
+  ],
+  "cache_snapshot_seconds": 2
+}
