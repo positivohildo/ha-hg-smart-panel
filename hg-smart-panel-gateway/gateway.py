@@ -58,6 +58,7 @@ CONFIG = {}
 LAYOUT = {}
 WHITELIST = set()
 PANEL_KEY = ""
+LUMIA_KEY = "hg-lumia-9a81cd68e4c4fc59592f8b88b8e25313"
 HA_URL = ""
 HA_TOKEN = ""
 CACHE_SECONDS = 2
@@ -65,7 +66,7 @@ TABLET_URL = ""
 TABLET_SECRET = ""
 
 def check_and_reload_config():
-    global _LAST_CONFIG_MTIME, _LAST_LAYOUT_MTIME, CONFIG, LAYOUT, WHITELIST, PANEL_KEY, HA_URL, HA_TOKEN, CACHE_SECONDS, TABLET_URL, TABLET_SECRET
+    global _LAST_CONFIG_MTIME, _LAST_LAYOUT_MTIME, CONFIG, LAYOUT, WHITELIST, PANEL_KEY, LUMIA_KEY, HA_URL, HA_TOKEN, CACHE_SECONDS, TABLET_URL, TABLET_SECRET
     reloaded = False
 
     # 1. Suporte a Home Assistant Add-on nativo (Supervisor Token e Options)
@@ -83,6 +84,8 @@ def check_and_reload_config():
                 opts = json.load(f)
                 if opts.get("panel_api_key"):
                     PANEL_KEY = opts["panel_api_key"]
+                if opts.get("lumia_api_key"):
+                    LUMIA_KEY = opts["lumia_api_key"]
                 if opts.get("cache_snapshot_seconds"):
                     CACHE_SECONDS = int(opts["cache_snapshot_seconds"])
         except Exception as e:
@@ -391,13 +394,17 @@ class GatewayRequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(payload)
 
     def is_authenticated(self):
-        if not PANEL_KEY:
+        if not PANEL_KEY and not LUMIA_KEY:
             return True
         auth_header = self.headers.get("Authorization", "")
         if not auth_header.startswith("Bearer "):
             return False
         token = auth_header[7:].strip()
-        return hmac.compare_digest(token, PANEL_KEY)
+        if PANEL_KEY and hmac.compare_digest(token, PANEL_KEY):
+            return True
+        if LUMIA_KEY and hmac.compare_digest(token, LUMIA_KEY):
+            return True
+        return False
 
     def do_OPTIONS(self):
         self.send_response(204)

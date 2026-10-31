@@ -1,6 +1,6 @@
 name: "HG Smart Panel Gateway"
 description: "Gateway local de alta performance, cache de câmeras e temporizador da Airfryer para o painel tablet ZH960"
-version: "0.6.1"
+version: "0.6.2"
 slug: "hg_smart_panel_gateway"
 init: false
 arch:
@@ -19,7 +19,9 @@ ports_description:
   8090/tcp: "Porta HTTP do painel tablet HG (8090)"
 options:
   panel_api_key: "hg-panel-7a41bc57d3b3fb49481f7a77a7e14202"
+  lumia_api_key: "hg-lumia-9a81cd68e4c4fc59592f8b88b8e25313"
   cache_snapshot_seconds: 2
 schema:
   panel_api_key: "str"
+  lumia_api_key: "str"
   cache_snapshot_seconds: "int"
