@@ -13,21 +13,9 @@
           "category": "light"
         },
         {
-          "entity_id": "light.luz_quarto",
-          "name": "Luz Quarto Alternativa",
-          "favorite": false,
-          "category": "light"
-        },
-        {
           "entity_id": "climate.quarto",
           "name": "Ar-condicionado",
           "favorite": true,
-          "category": "climate"
-        },
-        {
-          "entity_id": "climate.ar_condicionado_quarto_de_cima",
-          "name": "Ar-condicionado Quarto Cima",
-          "favorite": false,
           "category": "climate"
         },
         {
