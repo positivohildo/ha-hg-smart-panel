@@ -152,6 +152,7 @@ def check_and_reload_config():
     ]
     for cam in default_cameras:
         WHITELIST.add(cam)
+    WHITELIST.add("scene.desligar_tudo")
 
     if reloaded:
         print(f"[*] Configuração carregada com sucesso. Whitelist: {len(WHITELIST)} entidades | HA Alvo: {HA_URL}")
@@ -546,7 +547,12 @@ class GatewayRequestHandler(BaseHTTPRequestHandler):
                         "name": friendly,
                         "room": m.get("room", "Sem Ambiente"),
                         "room_id": m.get("room_id", "sem_ambiente"),
-                        "favorite": m.get("favorite", False)
+                        "favorite": m.get("favorite", False),
+                        "unit_of_measurement": attrs.get("unit_of_measurement", ""),
+                        "temperature": attrs.get("temperature"),
+                        "current_temperature": attrs.get("current_temperature"),
+                        "hvac_modes": attrs.get("hvac_modes"),
+                        "hvac_action": attrs.get("hvac_action")
                     })
             self.send_json(200, {"entities": filtered, "airfryer": airfryer_status()})
         except Exception as e:
@@ -572,6 +578,8 @@ class GatewayRequestHandler(BaseHTTPRequestHandler):
 
         domain = "light"
         service = "toggle"
+        service_data = {"entity_id": entity_id}
+
         if entity_id.startswith("switch."):
             domain = "switch"
             service = "toggle"
@@ -580,20 +588,38 @@ class GatewayRequestHandler(BaseHTTPRequestHandler):
             service = "toggle"
         elif entity_id.startswith("lock."):
             domain = "lock"
-            # Se vier action explícita, usa ela; senão alterna com base no estado enviado
             action = body.get("action", "")
             if action in ["lock", "unlock", "open"]:
                 service = action
             else:
-                # Se o estado atual é locked -> unlock; se unlocked -> lock
                 current_st = body.get("current_state", "")
                 service = "lock" if current_st == "unlocked" else "unlock"
         elif entity_id.startswith("button."):
             domain = "button"
             service = "press"
+        elif entity_id.startswith("climate."):
+            domain = "climate"
+            action = body.get("action", "toggle")
+            if action == "set_temperature":
+                service = "set_temperature"
+                if "temperature" in body:
+                    service_data["temperature"] = float(body["temperature"])
+            elif action == "set_hvac_mode":
+                service = "set_hvac_mode"
+                if "hvac_mode" in body:
+                    service_data["hvac_mode"] = str(body["hvac_mode"])
+            else:
+                current_st = body.get("current_state", "off")
+                service = "turn_off" if current_st != "off" else "turn_on"
+        elif entity_id.startswith("scene."):
+            domain = "scene"
+            service = "turn_on"
+        elif entity_id.startswith("script."):
+            domain = "script"
+            service = "turn_on"
 
         url = f"{HA_URL}/api/services/{domain}/{service}"
-        req_data = json.dumps({"entity_id": entity_id}).encode("utf-8")
+        req_data = json.dumps(service_data).encode("utf-8")
         req = urllib.request.Request(
             url,
             data=req_data,

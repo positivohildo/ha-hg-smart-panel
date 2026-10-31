@@ -1,6 +1,6 @@
 name: "HG Smart Panel Gateway"
-description: "Gateway local de alta performance, cache de câmeras e temporizador da Airfryer para o painel tablet ZH960"
-version: "0.6.2"
+description: "Gateway local de alta performance, cache de câmeras e temporizador da Airfryer para o painel tablet ZH960 e Lumia 640"
+version: "0.7.0"
 slug: "hg_smart_panel_gateway"
 init: false
 arch:

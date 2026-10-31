@@ -1,6 +1,62 @@
 {
-  "version": "0.5.0",
+  "version": "0.6.0",
   "rooms": [
+    {
+      "id": "quarto",
+      "name": "Quarto",
+      "icon": "bed",
+      "entities": [
+        {
+          "entity_id": "light.luz_quarto_2",
+          "name": "Luz do quarto",
+          "favorite": true,
+          "category": "light"
+        },
+        {
+          "entity_id": "light.luz_quarto",
+          "name": "Luz Quarto Alternativa",
+          "favorite": false,
+          "category": "light"
+        },
+        {
+          "entity_id": "climate.quarto",
+          "name": "Ar-condicionado",
+          "favorite": true,
+          "category": "climate"
+        },
+        {
+          "entity_id": "climate.ar_condicionado_quarto_de_cima",
+          "name": "Ar-condicionado Quarto Cima",
+          "favorite": false,
+          "category": "climate"
+        },
+        {
+          "entity_id": "sensor.quarto_room_temperature",
+          "name": "Temperatura Quarto",
+          "favorite": true,
+          "category": "sensor"
+        }
+      ]
+    },
+    {
+      "id": "escritorio",
+      "name": "Escritório",
+      "icon": "desktop_windows",
+      "entities": [
+        {
+          "entity_id": "light.modulo_escritorio_l1",
+          "name": "Luz do escritório",
+          "favorite": true,
+          "category": "light"
+        },
+        {
+          "entity_id": "sensor.alexa_escritorio_temperatura",
+          "name": "Temperatura Escritório",
+          "favorite": true,
+          "category": "sensor"
+        }
+      ]
+    },
     {
       "id": "cozinha",
       "name": "Cozinha",
