@@ -153,12 +153,6 @@
           "name": "Área de Serviço",
           "favorite": false,
           "category": "light"
-        },
-        {
-          "entity_id": "light.modulo_escritorio_l1",
-          "name": "Escritório",
-          "favorite": false,
-          "category": "light"
         }
       ]
     },
