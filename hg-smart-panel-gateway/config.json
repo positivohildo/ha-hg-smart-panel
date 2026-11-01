@@ -13,6 +13,9 @@
     "light.luzes_frente",
     "camera.poste_vip5450_mediaprofile_channel1_mainstream",
     "binary_sensor.presenca_sala",
+    "binary_sensor.presenca_cozinha",
+    "binary_sensor.presenca_corredor_por_distancia",
+    "sensor.zona_presenca_sala_cozinha",
     "camera.poste",
     "camera.portao",
     "camera.frente"

@@ -14,7 +14,10 @@
     "camera.poste",
     "camera.portao",
     "camera.frente",
-    "binary_sensor.presenca_sala"
+    "binary_sensor.presenca_sala",
+    "binary_sensor.presenca_cozinha",
+    "binary_sensor.presenca_corredor_por_distancia",
+    "sensor.zona_presenca_sala_cozinha"
   ],
   "cache_snapshot_seconds": 2
 }

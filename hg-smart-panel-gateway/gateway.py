@@ -134,9 +134,21 @@ def check_and_reload_config():
                     WHITELIST.add(cam["entity_id"])
                 if LAYOUT.get("motion_sensor"):
                     WHITELIST.add(LAYOUT["motion_sensor"])
+                for ms in LAYOUT.get("motion_sensors", []):
+                    WHITELIST.add(ms)
                 reloaded = True
         except Exception as e:
             print(f"[!] Erro ao ler {LAYOUT_PATH}: {e}")
+
+    # Sensores de presença e zonas garantidos na whitelist
+    default_presence_sensors = [
+        "binary_sensor.presenca_sala",
+        "binary_sensor.presenca_cozinha",
+        "binary_sensor.presenca_corredor_por_distancia",
+        "sensor.zona_presenca_sala_cozinha"
+    ]
+    for ps in default_presence_sensors:
+        WHITELIST.add(ps)
 
     # Câmeras essenciais garantidas na whitelist
     default_cameras = [
