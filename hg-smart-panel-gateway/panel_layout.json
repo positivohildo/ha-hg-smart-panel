@@ -23,6 +23,12 @@
           "name": "Temperatura Quarto",
           "favorite": true,
           "category": "sensor"
+        },
+        {
+          "entity_id": "cover.cortina_quarto",
+          "name": "Cortina do quarto",
+          "favorite": true,
+          "category": "cover"
         }
       ]
     },
@@ -33,7 +39,13 @@
       "entities": [
         {
           "entity_id": "light.modulo_escritorio_l1",
-          "name": "Luz do escritório",
+          "name": "Luz principal",
+          "favorite": true,
+          "category": "light"
+        },
+        {
+          "entity_id": "light.jcom_1_switch_1",
+          "name": "LED escritório",
           "favorite": true,
           "category": "light"
         },

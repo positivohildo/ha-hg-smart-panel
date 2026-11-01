@@ -551,6 +551,7 @@ class GatewayRequestHandler(BaseHTTPRequestHandler):
                         "unit_of_measurement": attrs.get("unit_of_measurement", ""),
                         "temperature": attrs.get("temperature"),
                         "current_temperature": attrs.get("current_temperature"),
+                        "current_position": attrs.get("current_position"),
                         "hvac_modes": attrs.get("hvac_modes"),
                         "hvac_action": attrs.get("hvac_action")
                     })
@@ -590,7 +591,19 @@ class GatewayRequestHandler(BaseHTTPRequestHandler):
             service = action if action in ["turn_on", "turn_off"] else "toggle"
         elif entity_id.startswith("cover."):
             domain = "cover"
-            service = "toggle"
+            action = body.get("action", "toggle")
+            if action in ["open_cover", "open"]:
+                service = "open_cover"
+            elif action in ["close_cover", "close"]:
+                service = "close_cover"
+            elif action in ["stop_cover", "stop"]:
+                service = "stop_cover"
+            elif action in ["set_cover_position", "set_position"]:
+                service = "set_cover_position"
+                if "position" in body:
+                    service_data["position"] = int(body["position"])
+            else:
+                service = "toggle"
         elif entity_id.startswith("lock."):
             domain = "lock"
             action = body.get("action", "")
