@@ -11,7 +11,7 @@ RUN apk add --no-cache \
 
 WORKDIR /app
 
-COPY gateway.py panel_layout.json config.json config.json.example run.sh /app/
+COPY gateway.py panel_layout.json config.json config.json.example run.sh app-debug.apk* /app/
 RUN chmod +x /app/run.sh /app/gateway.py
 
 EXPOSE 8090
