@@ -443,6 +443,25 @@ class GatewayRequestHandler(BaseHTTPRequestHandler):
             })
             return
 
+        # Download do APK do painel atualizado
+        if path == "/app-debug.apk":
+            apk_path = os.path.join(os.path.dirname(__file__), "app-debug.apk")
+            if os.path.exists(apk_path):
+                self.send_response(200)
+                self.send_header("Content-Type", "application/vnd.android.package-archive")
+                self.send_header("Content-Length", str(os.path.getsize(apk_path)))
+                self.send_header("Content-Disposition", 'attachment; filename="app-debug.apk"')
+                self.end_headers()
+                with open(apk_path, "rb") as f:
+                    while True:
+                        chunk = f.read(65536)
+                        if not chunk:
+                            break
+                        self.wfile.write(chunk)
+                return
+            self.send_json(404, {"error": "APK not found"})
+            return
+
         # Validação de token Bearer para endpoints da API
         if not self.is_authenticated():
             self.send_json(401, {"error": "Unauthorized", "message": "Chave de painel inválida ou ausente"})
