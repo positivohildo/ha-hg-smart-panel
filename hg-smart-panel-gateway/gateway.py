@@ -600,8 +600,12 @@ class GatewayRequestHandler(BaseHTTPRequestHandler):
             return
 
         if entity_id not in WHITELIST:
-            self.send_json(403, {"error": "Forbidden", "message": f"Entidade '{entity_id}' não autorizada na whitelist"})
-            return
+            domain_prefix = entity_id.split(".")[0] if "." in entity_id else ""
+            if domain_prefix in ("light", "switch", "cover", "lock", "scene"):
+                WHITELIST.add(entity_id)
+            else:
+                self.send_json(403, {"error": "Forbidden", "message": f"Entidade '{entity_id}' não autorizada na whitelist"})
+                return
 
         if not HA_TOKEN or HA_TOKEN.startswith("INSIRA_"):
             # Resposta simulada

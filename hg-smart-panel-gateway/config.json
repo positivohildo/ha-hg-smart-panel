@@ -18,7 +18,16 @@
     "sensor.zona_presenca_sala_cozinha",
     "camera.poste",
     "camera.portao",
-    "camera.frente"
+    "camera.frente",
+    "cover.sala",
+    "cover.0x403059fffea7855c",
+    "cover.0x403059fffea7f4a2",
+    "cover.cortina_quarto",
+    "light.modulo_corredor_l2",
+    "switch.0xa4c1388ea7faa7c0_l1",
+    "light.modulo_corredor_l3",
+    "light.modulo_lago_l4",
+    "light.modulo_led_fundos_l1"
   ],
   "cache_snapshot_seconds": 2
 }
